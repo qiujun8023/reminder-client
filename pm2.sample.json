@@ -4,7 +4,7 @@
   "log_date_format": "YYYY-MM-DD HH:mm Z",
   "exec_mode": "cluster",
   "node_args": "--harmony",
-  "instances": 0,
+  "instances": 1,
   "min_uptime": "200s",
   "max_memory_restart": "500M",
   "watch": false,

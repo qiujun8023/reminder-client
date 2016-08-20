@@ -38,6 +38,7 @@
     "ioredis": "^2.3.0",
     "lodash": "^4.6.1",
     "moment": "^2.14.1",
+    "nodemon": "^1.10.2",
     "winston": "^2.2.0",
     "winston-daily-rotate-file": "^1.2.0"
   },

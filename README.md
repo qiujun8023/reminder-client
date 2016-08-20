@@ -2,7 +2,7 @@
 
 ```bash
 npm install
-npm install -g nodemon gulp commitizen cz-conventional-changelog
+npm install -g commitizen cz-conventional-changelog
 ```
 
 #### **后端开发**
