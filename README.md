@@ -2,7 +2,7 @@
 
 ```bash
 npm install
-npm install -g commitizen cz-conventional-changelog
+sudo npm install -g commitizen cz-conventional-changelog
 ```
 
 #### **后端开发**
@@ -16,9 +16,9 @@ npm run dev
 * 执行测试
 
 ```bash
-npm run test               # 运行所有测试
-npm run test -- -g bucket  # 只测试bucket
-npm run cover              # 测试覆盖率
+npm run test                # 运行所有测试
+npm run test -- -g network  # 只测试 network
+npm run cover               # 测试覆盖率
 ```
 
 * 代码风格/质量检查
@@ -47,8 +47,9 @@ npm run start
     └── server
         ├── api               // API定义
         ├── config            // 配置文件
-        ├── libs              // 通用函数
+        ├── lib               // 通用函数
         ├── middleware        // 中间件
         ├── service           // 业务逻辑
-        ├── test              // 测试
+        ├── resource          // 资源文件
+        ├── spec              // swagger
         └── app.js            // 入口文件
