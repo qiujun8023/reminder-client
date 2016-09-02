@@ -6,7 +6,7 @@
   "node_args": "--harmony",
   "instances": 1,
   "min_uptime": "200s",
-  "max_memory_restart": "500M",
+  "max_memory_restart": "200M",
   "watch": false,
   "merge_logs": true,
   "autorestart": true,
