@@ -10,6 +10,7 @@ module.exports = {
     "document": false
   },
   "rules": {
+    "comma-dangle": [2, "always-multiline"],
     "array-bracket-spacing": 0,
     "generator-star-spacing": 0,
     "arrow-spacing": 2,

@@ -18,11 +18,16 @@ module.exports = {
       throw new errors.BadGateway(e.message);
     }
 
+    let size = response.socket.bytesRead;
     let time = response.elapsedTime;
-    yield network.addTimeAsync({time});
+    let speed = (size / time * 1000 * 8).toFixed(0);
+    yield network.addSpeedAsync({time, size, speed});
 
     let result = {
       time: time + ' ms',
+      size: size + ' bytes',
+      speed: speed + ' bps',
+      speed_format: network.format('speed', speed),
     };
 
     res.json(result);
