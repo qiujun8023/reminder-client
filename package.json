@@ -27,6 +27,7 @@
     "supertest": "^2.0.0"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.0",
     "co": "^4.6.0",
     "co-request": "^1.0.0",
@@ -36,6 +37,7 @@
     "express": "^4.13.4",
     "express-ko": "^1.0.1",
     "express-session": "^1.14.0",
+    "express-xml-bodyparser": "^0.3.0",
     "glob": "^7.0.5",
     "ioredis": "^2.3.0",
     "js-yaml": "^3.6.1",
