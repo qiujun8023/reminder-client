@@ -33,6 +33,7 @@
     "co-request": "^1.0.0",
     "config": "^1.21.0",
     "connect-redis": "^3.1.0",
+    "cron": "^1.1.0",
     "debug": "^2.2.0",
     "express": "^4.13.4",
     "express-ko": "^1.0.1",
