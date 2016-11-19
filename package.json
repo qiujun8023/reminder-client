@@ -9,6 +9,7 @@
   "main": "server/app.js",
   "scripts": {
     "dev": "nodemon -e js,yaml -x 'node --harmony' server/app.js",
+    "cron": "nodemon -e js,yaml -x 'node --harmony' server/cron.js",
     "lint": "./node_modules/.bin/eslint --ext .jsx,.js --ignore-path .lintignore server",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --require co-mocha --colors server/resource/mocha_bootload 'server/**/*.test.js'",
     "cover": "NODE_ENV=test ./node_modules/.bin/nyc --reporter html --reporter text ./node_modules/.bin/mocha --harmony --require co-mocha --colors server/resource/mocha_bootload 'server/**/*.test.js'",
