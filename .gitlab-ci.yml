@@ -1,0 +1,26 @@
+image: node:4.4.4
+
+services:
+  - mysql:latest
+  - redis:latest
+
+variables:
+  MYSQL_DATABASE: shard
+  MYSQL_ROOT_PASSWORD: FhfLaS4uzv5qwnPh
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - test
+
+before_script:
+  - npm install
+
+execute npm tests:
+  stage: test
+  script:
+   - npm install
+   - npm run lint
+   - npm run test

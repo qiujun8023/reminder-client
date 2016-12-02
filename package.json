@@ -2,7 +2,7 @@
   "name": "shard",
   "version": "0.0.3",
   "engines": {
-    "node": ">=4.4.0"
+    "node": ">=4.4.4"
   },
   "engine-strict": true,
   "description": "零碎代码合集",
