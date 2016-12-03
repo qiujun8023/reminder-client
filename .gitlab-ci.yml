@@ -10,7 +10,7 @@ variables:
 
 cache:
   paths:
-  - node_modules/
+    - node_modules/
 
 stages:
   - test
@@ -21,6 +21,6 @@ before_script:
 execute npm tests:
   stage: test
   script:
-   - npm install
-   - npm run lint
-   - npm run test
+    - cp server/config/gitlab_ci.js server/config/local.js 
+    - npm run lint
+    - npm run test
