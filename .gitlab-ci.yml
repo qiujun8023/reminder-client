@@ -23,5 +23,4 @@ execute npm tests:
   script:
     - cp server/config/gitlab_ci.js server/config/local.js
     - npm run lint
-    - npm run test
     - npm run cover
