@@ -1,3 +1,9 @@
+#### 项目状态
+
+[![build status](https://gitlab.ticknet.cn/qiujun/shard/badges/develop/build.svg)](https://gitlab.ticknet.cn/qiujun/shard/commits/develop)
+
+[![coverage report](https://gitlab.ticknet.cn/qiujun/shard/badges/develop/coverage.svg)](https://gitlab.ticknet.cn/qiujun/shard/commits/develop)
+
 #### **开发环境搭建**
 
 ```bash
