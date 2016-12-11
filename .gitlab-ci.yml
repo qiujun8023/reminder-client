@@ -16,7 +16,7 @@ stages:
   - test
 
 before_script:
-  - npm install
+  - npm install -q
 
 execute npm tests:
   stage: test
