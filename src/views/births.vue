@@ -12,7 +12,7 @@
       <div class="weui-panel__bd">
         <router-link
           class="weui-media-box weui-media-box_appmsg"
-          :to="{name: 'birth-detail', params: {birthId: item.birthId}, query: {bgColor: item.bgColor}}"
+          :to="{name: 'detail', params: {birthId: item.birthId}, query: {bgColor: item.bgColor}}"
           :key="item.birthId"
           v-for="item in filteredItems">
           <div class="weui-media-box__hd" :style="{'background-color': item.bgColor}">

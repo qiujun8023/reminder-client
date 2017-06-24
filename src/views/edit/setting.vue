@@ -55,7 +55,7 @@
         </div>
         <div class="weui-flex__item" v-else>
           <router-link
-            :to="{name: 'birth-detail'}"
+            :to="{name: 'detail'}"
             class="weui-btn weui-btn_default"
             :class="{'weui-btn_loading': isSubmit}">
             返回
@@ -135,7 +135,7 @@ export default {
 
       Api('/api/settings', {method, body}).then((res) => {
         this.isSubmit = false
-        this.$router.push({name: 'birth-detail'})
+        this.$router.push({name: 'detail'})
       }).catch(() => {
         this.isSubmit = false
       })
@@ -152,7 +152,7 @@ export default {
       let settingId = this.settingId
       Api('/api/settings', {method: 'DELETE', query: {settingId}}).then((res) => {
         this.isRemove = false
-        this.$router.push({name: 'birth-detail'})
+        this.$router.push({name: 'detail'})
       }).catch(() => {
         this.isRemove = false
       })

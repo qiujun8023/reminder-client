@@ -188,7 +188,7 @@ export default {
       Api('/api/births', {method, body}).then(({data}) => {
         this.isSubmit = false
         console.log(data)
-        this.$router.push({name: 'birth-detail', params: {birthId: data.birthId}})
+        this.$router.push({name: 'detail', params: {birthId: data.birthId}})
       }).catch(() => {
         this.isSubmit = false
       })

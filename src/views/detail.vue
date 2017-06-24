@@ -5,7 +5,7 @@
         <router-link class="back" :to="{name: 'births'}">
           <i class="fa fa-angle-left fa-lg"></i>
         </router-link>
-        <router-link class="edit" :to="{name: 'birth-edit'}">
+        <router-link class="edit" :to="{name: 'edit'}">
           <i class="fa fa-edit fa-lg"></i>
         </router-link>
       </div>
@@ -79,7 +79,7 @@
 
     <div class="weui-cells__title">
       提醒设置
-      <router-link :to="{name: 'birth-edit-setting'}">
+      <router-link :to="{name: 'setting-edit'}">
         <i class="fa fa-plus fa-lg" style="float:right"></i>
       </router-link>
     </div>
@@ -93,7 +93,7 @@
     <div class="weui-cells" v-else>
       <router-link
         class="weui-cell weui-cell_access"
-        :to="{name: 'birth-edit-setting', params: {settingId: item.settingId}}"
+        :to="{name: 'setting-edit', params: {settingId: item.settingId}}"
         :key="item.settingId"
         v-for="item in setting">
         <div class="weui-cell__bd">

@@ -18,7 +18,7 @@
         <span>搜索</span>
       </label>
     </form>
-    <router-link :to="{name: 'birth-add'}" class="weui-search-bar__cancel-btn">
+    <router-link :to="{name: 'edit'}" class="weui-search-bar__cancel-btn">
       <i class="fa fa-plus fa-lg"></i>
     </router-link>
   </div>
