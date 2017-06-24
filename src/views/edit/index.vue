@@ -9,7 +9,7 @@
         <div class="weui-cell__bd">
           <input class="weui-input" type="text" placeholder="请输入姓名" v-model="title">
         </div>
-        <div class="weui-cell__ft" v-if="is_loading">
+        <div class="weui-cell__ft" v-if="isLoading">
           <i class="weui-loading"></i>
         </div>
       </div>
@@ -24,14 +24,14 @@
           </select>
         </div>
       </div>
-      <div class="weui-cell" :class="{'weui-cell_warn': is_year_error}">
+      <div class="weui-cell" :class="{'weui-cell_warn': isYearError}">
         <div class="weui-cell__hd">
           <label class="weui-label">年份</label>
         </div>
         <div class="weui-cell__bd">
           <input class="weui-input" type="number" placeholder="请输入年份" v-model="year">
         </div>
-        <div class="weui-cell__ft" v-if="is_year_error">
+        <div class="weui-cell__ft" v-if="isYearError">
           <i class="weui-icon-warn"></i>
         </div>
       </div>
@@ -60,23 +60,32 @@
     <div class="weui-btn-area">
       <div class="weui-flex">
         <div class="weui-flex__item">
-          <div class="weui-btn weui-btn_primary" :class="{'weui-btn_disabled': !is_valid, 'weui-btn_loading': is_valid && (is_submit || is_remove)}" @click="submit()">
-            <span v-if="is_submit">
+          <div class="weui-btn weui-btn_primary"
+            :class="{'weui-btn_disabled': !isValid, 'weui-btn_loading': isValid && (isSubmit || isRemove)}"
+            @click="submit()">
+            <span v-if="isSubmit">
               <i class="weui-loading"></i> 保存中
             </span>
             <span v-else>保存</span>
           </div>
         </div>
-        <div class="weui-flex__item" v-if="birth_id">
-          <div class="weui-btn weui-btn_warn" :class="{'weui-btn_loading': is_submit || is_remove}" @click="remove()">
-            <span v-if="is_remove">
+        <div class="weui-flex__item" v-if="birthId">
+          <div class="weui-btn weui-btn_warn"
+            :class="{'weui-btn_loading': isSubmit || isRemove}"
+            @click="remove()">
+            <span v-if="isRemove">
               <i class="weui-loading"></i> 删除中
             </span>
             <span v-else>删除</span>
           </div>
         </div>
         <div class="weui-flex__item" v-else>
-          <router-link :to="{name: 'birthday-births'}" class="weui-btn weui-btn_default" :class="{'weui-btn_loading': is_submit}">返回</router-link>
+          <router-link
+            class="weui-btn weui-btn_default"
+            :to="{name: 'births'}"
+            :class="{'weui-btn_loading': isSubmit}">
+            返回
+          </router-link>
         </div>
       </div>
     </div>
@@ -85,12 +94,12 @@
 
 <script>
 import _ from 'lodash'
-import Api from '../../libs/api'
+import Api from '../../api'
 
 export default {
   data () {
     return {
-      birth_id: null,
+      birthId: null,
       title: '',
       type: '',
       year: 1990,
@@ -98,25 +107,25 @@ export default {
       month: 1,
       days: [],
       day: 1,
-      is_loading: false,
-      is_submit: false,
-      is_remove: false
+      isLoading: false,
+      isSubmit: false,
+      isRemove: false
     }
   },
 
   computed: {
-    is_year_error () {
+    isYearError () {
       return this.year && (isNaN(this.year) || this.year > 2100 || this.year < 1900)
     },
-    is_valid () {
-      return this.title && this.type && this.year && !this.is_year_error && this.month && this.day
+    isValid () {
+      return this.title && this.type && this.year && !this.isYearError && this.month && this.day
     }
   },
 
   created () {
     this.type = 'LUNAR'
-    this.birth_id = Number(this.$route.params.birth_id || 0) || null
-    if (this.birth_id) {
+    this.birthId = Number(this.$route.params.birthId || 0) || null
+    if (this.birthId) {
       this.fetch()
     }
   },
@@ -144,28 +153,26 @@ export default {
     },
 
     fetch () {
-      this.is_loading = true
-      let birth_id = this.birth_id
-      Api('/api/birthday/births/detail', {query: {birth_id}}).then((res) => {
-        this.is_loading = false
-        if (!res.ok) {
-          return alert(res.data.message || '网络异常，请刷新或稍后再试')
-        }
-
-        this.title = res.data.title
-        this.type = res.data.type
-        let date = res.data.date.split('-')
+      this.isLoading = true
+      let birthId = this.birthId
+      Api('/api/births/detail', {query: {birthId}}).then(({data}) => {
+        this.isLoading = false
+        this.title = data.title
+        this.type = data.type
+        let date = data.date.split('-')
         this.year = Number(date[0])
         this.month = Number(date[1])
         this.day = Number(date[2])
+      }).catch(() => {
+        this.isLoading = false
       })
     },
 
     submit () {
-      if (!this.is_valid || this.is_submit || this.is_remove) {
+      if (!this.isValid || this.isSubmit || this.isRemove) {
         return false
       }
-      this.is_submit = true
+      this.isSubmit = true
 
       let method = 'POST'
       let body = {
@@ -173,40 +180,34 @@ export default {
         type: this.type,
         date: `${this.year}-${this.format(this.month, 2)}-${this.format(this.day, 2)}`
       }
-      if (this.birth_id) {
+      if (this.birthId) {
         method = 'PUT'
-        body.birth_id = this.birth_id
+        body.birthId = this.birthId
       }
 
-      Api('/api/birthday/births', {method, body}).then((res) => {
-        this.is_submit = false
-        if (!res.ok) {
-          return alert(res.data.message || '网络异常，请刷新或稍后再试')
-        }
-
-        this.$router.push({name: 'birthday-birth-detail', params: {birth_id: res.data.birth_id}})
+      Api('/api/births', {method, body}).then(({data}) => {
+        this.isSubmit = false
+        console.log(data)
+        this.$router.push({name: 'birth-detail', params: {birthId: data.birthId}})
+      }).catch(() => {
+        this.isSubmit = false
       })
     },
 
     remove () {
-      if (this.is_submit || this.is_remove) {
+      if (this.isSubmit || this.isRemove) {
+        return false
+      } else if (!confirm('你确定要删除当前生日信息吗?')) {
         return false
       }
-      if (!confirm('你确定要删除当前生日信息吗?')) {
-        return false
-      }
-      this.is_remove = true
-      let birth_id = this.birth_id
-      Api('/api/birthday/births', {
-        method: 'DELETE',
-        query: {birth_id}
-      }).then((res) => {
-        this.is_remove = false
-        if (!res.ok) {
-          return alert(res.data.message || '网络异常，请刷新或稍后再试')
-        }
 
-        this.$router.push({name: 'birthday-births'})
+      this.isRemove = true
+      let birthId = this.birthId
+      Api('/api/births', {method: 'DELETE', query: {birthId}}).then((res) => {
+        this.isRemove = false
+        this.$router.push({name: 'births'})
+      }).catch(() => {
+        this.isRemove = false
       })
     }
   }

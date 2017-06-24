@@ -1,11 +1,30 @@
 import 'whatwg-fetch'
 import url from 'url'
 
-let status, ok
+let getLoginUrl = function (config) {
+  return url.format({
+    protocol: 'https',
+    host: 'open.weixin.qq.com',
+    pathname: '/connect/oauth2/authorize',
+    query: Object.assign(config, {state: location.href}),
+    hash: '#wechat_redirect'
+  })
+}
+
+let handleHttpError = function (status, data) {
+  switch (status) {
+    case 401:
+      location.href = getLoginUrl(data.extra)
+      return true
+    default:
+      alert(data.message)
+      return false
+  }
+}
 
 export default function (uri, params) {
   params = params || {}
-  params.method = (params.method || 'GET').toUpperCase()
+  params.method = params.method || 'GET'
 
   // 提交 Cookie
   params.credentials = 'same-origin'
@@ -25,20 +44,28 @@ export default function (uri, params) {
 
   // 处理 GET 参数
   uri = uri + url.format({query: params.query})
-  delete params.query
+  params.query = undefined
 
+  let status, data
   return fetch(uri, params)
     .then((res) => {
-      ok = res.ok
       status = res.status
       return res.json()
     })
-    .then((data) => {
-      if (typeof data !== 'object') {
-        data = {message: '服务器错误'}
+    .then((res) => {
+      data = res
+
+      if (status >= 400) {
+        throw new Error(data.message)
       }
-      return {status, ok, data}
-    }, (err) => {
-      return {status: 500, ok: false, data: {message: err}}
+      return {status, data}
+    })
+    .catch(function (err) {
+      if (typeof data !== 'object') {
+        data = {message: err.message}
+      }
+
+      handleHttpError(status, data)
+      throw err
     })
 }

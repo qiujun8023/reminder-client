@@ -1,24 +1,24 @@
 <template>
   <div>
-    <div class="head" :style="{background: `url(${bg_img}) center`}">
+    <div class="head" :style="{background: `url(${bgImg}) center`}">
       <div class="navbar">
-        <router-link class="back" :to="{name: 'birthday-births'}">
+        <router-link class="back" :to="{name: 'births'}">
           <i class="fa fa-angle-left fa-lg"></i>
         </router-link>
-        <router-link class="edit" :to="{name: 'birthday-birth-edit'}">
+        <router-link class="edit" :to="{name: 'birth-edit'}">
           <i class="fa fa-edit fa-lg"></i>
         </router-link>
       </div>
-      <div class="avatar" :style="{'background-color': bg_color}">
-        <i class="weui-loading" v-if="birth_loading"></i>
+      <div class="avatar" :style="{'background-color': bgColor}">
+        <i class="weui-loading" v-if="birthLoading"></i>
         <span v-else>{{(birth.title && birth.title.slice(-1)) || '日'}}</span>
       </div>
       <div class="title">
-        <i class="weui-loading" v-if="birth_loading"></i>
+        <i class="weui-loading" v-if="birthLoading"></i>
         <span v-else>{{birth.title || 生日}}</span>
       </div>
       <div class="date">
-        <i class="weui-loading" v-if="birth_loading"></i>
+        <i class="weui-loading" v-if="birthLoading"></i>
         <span v-else-if="birth.type === 'SOLAR'">
           {{`${birth.year}年 ${birth.month}月${birth.day}日`}}
         </span>
@@ -34,7 +34,7 @@
           <p>年龄</p>
         </div>
         <div class="weui-cell__ft">
-          <i class="weui-loading" v-if="birth_loading"></i>
+          <i class="weui-loading" v-if="birthLoading"></i>
           <span v-else>{{(birth.age || 0) + '岁'}}</span>
         </div>
       </div>
@@ -43,7 +43,7 @@
           <p>生肖</p>
         </div>
         <div class="weui-cell__ft">
-          <i class="weui-loading" v-if="birth_loading"></i>
+          <i class="weui-loading" v-if="birthLoading"></i>
           <span v-else>{{birth.zodiac || '无'}}</span>
         </div>
       </div>
@@ -52,7 +52,7 @@
           <p>星座</p>
         </div>
         <div class="weui-cell__ft">
-          <i class="weui-loading" v-if="birth_loading"></i>
+          <i class="weui-loading" v-if="birthLoading"></i>
           <span v-else>{{birth.constellation || '无'}}</span>
         </div>
       </div>
@@ -61,7 +61,7 @@
           <p>出生天数</p>
         </div>
         <div class="weui-cell__ft">
-          <i class="weui-loading" v-if="birth_loading"></i>
+          <i class="weui-loading" v-if="birthLoading"></i>
           <span v-else>{{(birth.days || -1) + '天'}}</span>
         </div>
       </div>
@@ -70,7 +70,7 @@
           <p>生日倒计时</p>
         </div>
         <div class="weui-cell__ft">
-          <i class="weui-loading" v-if="birth_loading"></i>
+          <i class="weui-loading" v-if="birthLoading"></i>
           <span v-else-if="birth.countdown === 0">今天</span>
           <span v-else>{{(birth.countdown || -1) + '天'}}</span>
         </div>
@@ -79,11 +79,11 @@
 
     <div class="weui-cells__title">
       提醒设置
-      <router-link :to="{name: 'birthday-birth-edit-setting'}">
+      <router-link :to="{name: 'birth-edit-setting'}">
         <i class="fa fa-plus fa-lg" style="float:right"></i>
       </router-link>
     </div>
-    <div class="weui-loadmore" v-if="setting_loading">
+    <div class="weui-loadmore" v-if="settingLoading">
       <i class="weui-loading"></i>
       <span class="weui-loadmore__tips">正在加载</span>
     </div>
@@ -91,7 +91,11 @@
       <span class="weui-loadmore__tips">暂无提醒</span>
     </div>
     <div class="weui-cells" v-else>
-      <router-link :to="{name: 'birthday-birth-edit-setting', params: {setting_id: item.setting_id}}" class="weui-cell weui-cell_access" v-for="item in setting" :key="item.setting_id">
+      <router-link
+        class="weui-cell weui-cell_access"
+        :to="{name: 'birth-edit-setting', params: {settingId: item.settingId}}"
+        :key="item.settingId"
+        v-for="item in setting">
         <div class="weui-cell__bd">
           <p v-if="item.advance">{{`提前${item.advance}天`}}</p>
           <p v-else>当天</p>
@@ -103,54 +107,50 @@
 </template>
 
 <script>
-import Api from '../libs/api'
+import Api from '../api'
 
 export default {
   data () {
     return {
-      bg_img: null,
-      bg_color: '#FB7886',
-      birth_id: null,
-      birth_loading: false,
+      bgImg: null,
+      bgColor: '#FB7886',
+      birthId: null,
+      birthLoading: false,
       birth: {},
-      setting_loading: false,
+      settingLoading: false,
       setting: {}
     }
   },
 
   created () {
-    let img_id = Math.floor(Math.random() * 4)
-    this.bg_img = `//cdn.qiujun.me/images/birthday/bg-${img_id}.jpg!shard`
-    this.birth_id = this.$route.params.birth_id
-    this.bg_color = this.$route.query.bg_color || this.bg_color
+    let imgId = Math.floor(Math.random() * 4)
+    this.bgImg = `//cdn.qiujun.me/images/birthday/bg-${imgId}.jpg!shard`
+    this.birthId = this.$route.params.birthId
+    this.bgColor = this.$route.query.bgColor || this.bgColor
     this.fetchBirth()
     this.fetchSetting()
   },
 
   methods: {
     fetchBirth () {
-      this.birth_loading = true
-      let birth_id = this.birth_id
-      Api('/api/birthday/births/detail', {query: {birth_id}}).then((res) => {
-        this.birth_loading = false
-        if (!res.ok) {
-          return alert(res.data.message || '网络异常，请刷新或稍后再试')
-        }
-
-        this.birth = res.data
+      this.birthLoading = true
+      let birthId = this.birthId
+      Api('/api/births/detail', {query: {birthId}}).then(({data}) => {
+        this.birthLoading = false
+        this.birth = data
+      }).catch(() => {
+        this.birthLoading = false
       })
     },
 
     fetchSetting () {
-      this.setting_loading = true
-      let birth_id = this.birth_id
-      Api('/api/birthday/settings', {query: {birth_id}}).then((res) => {
-        this.setting_loading = false
-        if (!res.ok) {
-          return alert(res.data.message || '网络异常，请刷新或稍后再试')
-        }
-
-        this.setting = res.data
+      this.settingLoading = true
+      let birthId = this.birthId
+      Api('/api/settings', {query: {birthId}}).then(({data}) => {
+        this.settingLoading = false
+        this.setting = data
+      }).catch(() => {
+        this.settingLoading = false
       })
     }
   }

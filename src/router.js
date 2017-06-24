@@ -1,33 +1,17 @@
-import ssBase from './ss/base'
-import ssRouter from './ss/router'
-import birthdayRouter from './birthday/router'
-import upyunRouter from './upyun/router'
 
-const NotFound = {
-  template: '<p>Page Not Found</p>'
-}
+import births from './views/births'
+import detail from './views/detail'
+import edit from './views/edit'
+import editSetting from './views/edit/setting'
 
-const RouterView = {
-  render (c) { return c('router-view') }
-}
+let title = ' - 生日管家'
 
 export default {
   routes: [
-    {
-      path: '/ss',
-      component: ssBase,
-      children: ssRouter.routes
-    },
-    {
-      path: '/birthday',
-      component: RouterView,
-      children: birthdayRouter.routes
-    },
-    {
-      path: '/upyun',
-      component: RouterView,
-      children: upyunRouter.routes
-    },
-    {path: '*', component: NotFound, meta: {title: '页面未找到'}}
+    {path: '/', name: 'births', component: births, meta: {title: '列表' + title}},
+    {path: '/add', name: 'birth-add', component: edit, meta: {title: '添加' + title}},
+    {path: '/:birthId', name: 'birth-detail', component: detail, meta: {title: '详情' + title}},
+    {path: '/:birthId/edit', name: 'birth-edit', component: edit, meta: {title: '编辑' + title}},
+    {path: '/:birthId/settings/:settingId?', name: 'birth-edit-setting', component: editSetting, meta: {title: '提醒' + title}}
   ]
 }
