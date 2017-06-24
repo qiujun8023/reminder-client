@@ -124,7 +124,7 @@ export default {
 
   created () {
     let imgId = Math.floor(Math.random() * 4)
-    this.bgImg = `//cdn.qiujun.me/images/birthday/bg-${imgId}.jpg!shard`
+    this.bgImg = `//cdn.qiujun.me/images/birthday/bg-${imgId}.jpg!birthday`
     this.birthId = this.$route.params.birthId
     this.bgColor = this.$route.query.bgColor || this.bgColor
     this.fetchBirth()

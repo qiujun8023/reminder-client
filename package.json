@@ -1,7 +1,7 @@
 {
-  "name": "shard-front",
-  "version": "0.2.0",
-  "description": "零碎代码 前端",
+  "name": "birthday",
+  "version": "0.3.0",
+  "description": "生日提醒前端",
   "author": "邱俊 <i@qiujun.me>",
   "private": true,
   "scripts": {
