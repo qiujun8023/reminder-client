@@ -20,7 +20,7 @@ export default {
     },
     {
       path: '/add',
-      name: 'edit',
+      name: 'add',
       component: edit,
       meta: {title: '添加' + title}
     },
