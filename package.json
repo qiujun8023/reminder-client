@@ -1,6 +1,6 @@
 {
   "name": "birthday",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "生日提醒 前端",
   "author": "qiujun",
   "license": "MIT",
@@ -14,9 +14,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
     "vue": "^2.2.2",
     "vue-router": "^2.3.0",
+    "weui": "^1.1.2",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

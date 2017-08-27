@@ -5,17 +5,23 @@
       <i class="weui-loading"></i>
       <span class="weui-loadmore__tips">加载中...</span>
     </div>
-    <div class="weui-loadmore weui-loadmore_line" v-else-if="!filteredItems || !filteredItems.length">
+    <div class="weui-loadmore weui-loadmore_line"
+      v-else-if="!filteredItems || !filteredItems.length">
       <span class="weui-loadmore__tips">暂无数据</span>
     </div>
     <div class="weui-panel weui-panel_access" v-else>
       <div class="weui-panel__bd">
         <router-link
           class="weui-media-box weui-media-box_appmsg"
-          :to="{name: 'detail', params: {birthId: item.birthId}, query: {bgColor: item.bgColor}}"
+          :to="{
+            name: 'detail',
+            params: {birthId: item.birthId},
+            query: {bgColor: item.bgColor}
+          }"
           :key="item.birthId"
           v-for="item in filteredItems">
-          <div class="weui-media-box__hd" :style="{'background-color': item.bgColor}">
+          <div class="weui-media-box__hd"
+            :style="{'background-color': item.bgColor}">
             <span>{{item.lastWord}}</span>
           </div>
           <div class="weui-media-box__bd">

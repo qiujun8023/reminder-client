@@ -41,7 +41,12 @@
         </div>
         <div class="weui-cell__bd">
           <select class="weui-select" v-model="month">
-            <option :value="index + 1" v-for="(item, index) in months">{{item}}月</option>
+            <option
+              :value="index + 1"
+              :key="index"
+              v-for="(item, index) in months">
+              {{item}}月
+            </option>
           </select>
         </div>
       </div>
@@ -51,7 +56,12 @@
         </div>
         <div class="weui-cell__bd">
           <select class="weui-select" v-model="day">
-            <option :value="index + 1" v-for="(item, index) in days">{{item}}</option>
+            <option
+              :value="index + 1"
+              :key="index"
+              v-for="(item, index) in days">
+              {{item}}
+            </option>
           </select>
         </div>
       </div>
@@ -61,7 +71,10 @@
       <div class="weui-flex">
         <div class="weui-flex__item">
           <div class="weui-btn weui-btn_primary"
-            :class="{'weui-btn_disabled': !isValid, 'weui-btn_loading': isValid && (isSubmit || isRemove)}"
+            :class="{
+              'weui-btn_disabled': !isValid,
+              'weui-btn_loading': isValid && (isSubmit || isRemove)
+            }"
             @click="submit()">
             <span v-if="isSubmit">
               <i class="weui-loading"></i> 保存中

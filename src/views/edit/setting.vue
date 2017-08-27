@@ -34,7 +34,10 @@
         <div class="weui-flex__item">
           <div
             class="weui-btn weui-btn_primary"
-            :class="{'weui-btn_disabled': !isValid, 'weui-btn_loading': isValid && (isSubmit || isRemove)}"
+            :class="{
+              'weui-btn_disabled': !isValid,
+              'weui-btn_loading': isValid && (isSubmit || isRemove)
+            }"
             @click="submit()">
             <span v-if="isSubmit">
               <i class="weui-loading"></i> 保存中
