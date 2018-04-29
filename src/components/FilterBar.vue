@@ -49,7 +49,7 @@ export default {
       event.preventDefault()
     },
 
-    update: function (value) {
+    update (value) {
       this.$emit('input', value.trim())
     }
   }

@@ -15,17 +15,13 @@
       </div>
       <div class="title">
         <i class="weui-loading" v-if="birthLoading"></i>
-        <span v-else>{{birth.title || 生日}}</span>
+        <span v-else>{{birth.title || '生日'}}</span>
       </div>
       <div class="date">
         <i class="weui-loading" v-if="birthLoading"></i>
-        <span v-else-if="birth.type === 'SOLAR'">
-          {{`${birth.year}年 ${birth.month}月${birth.day}日`}}
+        <span v-else>
+          {{`${birth.info.year} ${birth.info.month}${birth.info.day}`}}
         </span>
-        <span v-else-if="birth.type === 'LUNAR'">
-          {{`${birth.year}年 ${birth.month}${birth.day}`}}
-        </span>
-        <span v-else>未知出生日期</span>
       </div>
     </div>
     <div class="weui-cells detail">
@@ -35,7 +31,7 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="birthLoading"></i>
-          <span v-else>{{(birth.age || 0) + '岁'}}</span>
+          <span v-else>{{(birth.info.age || 0) + '岁'}}</span>
         </div>
       </div>
       <div class="weui-cell">
@@ -44,7 +40,7 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="birthLoading"></i>
-          <span v-else>{{birth.zodiac || '无'}}</span>
+          <span v-else>{{birth.info.zodiac || '无'}}</span>
         </div>
       </div>
       <div class="weui-cell">
@@ -53,7 +49,7 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="birthLoading"></i>
-          <span v-else>{{birth.constellation || '无'}}</span>
+          <span v-else>{{birth.info.constellation || '无'}}</span>
         </div>
       </div>
       <div class="weui-cell">
@@ -62,7 +58,7 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="birthLoading"></i>
-          <span v-else>{{(birth.days || -1) + '天'}}</span>
+          <span v-else>{{(birth.info.days || -1) + '天'}}</span>
         </div>
       </div>
       <div class="weui-cell">
@@ -71,8 +67,8 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="birthLoading"></i>
-          <span v-else-if="birth.countdown === 0">今天</span>
-          <span v-else>{{(birth.countdown || -1) + '天'}}</span>
+          <span v-else-if="birth.info.countdown === 0">今天</span>
+          <span v-else>{{(birth.info.countdown || -1) + '天'}}</span>
         </div>
       </div>
     </div>
@@ -100,33 +96,37 @@
           <p v-if="item.advance">{{`提前${item.advance}天`}}</p>
           <p v-else>当天</p>
         </div>
-        <div class="weui-cell__ft">{{item.time}}</div>
+        <div class="weui-cell__ft">{{item.time.substr(0, 5)}}</div>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import Api from '../api'
+import Api from '@/api'
+import utils from '@/lib/utils'
 
 export default {
   data () {
     return {
-      bgImg: null,
-      bgColor: '#FB7886',
-      birthId: null,
-      birthLoading: false,
+      bgImg: utils.randomBgImage(),
       birth: {},
-      settingLoading: false,
-      setting: {}
+      setting: {},
+      birthLoading: false,
+      settingLoading: false
+    }
+  },
+
+  computed: {
+    birthId () {
+      return this.$route.params.birthId
+    },
+    bgColor () {
+      return this.$route.query.bgColor || '#FB7886'
     }
   },
 
   created () {
-    let imgId = Math.floor(Math.random() * 4)
-    this.bgImg = `//cdn.qiujun.me/images/birthday/bg-${imgId}.jpg!birthday`
-    this.birthId = this.$route.params.birthId
-    this.bgColor = this.$route.query.bgColor || this.bgColor
     this.fetchBirth()
     this.fetchSetting()
   },
@@ -134,8 +134,7 @@ export default {
   methods: {
     fetchBirth () {
       this.birthLoading = true
-      let birthId = this.birthId
-      Api('/api/births/detail', {query: {birthId}}).then(({data}) => {
+      Api(`/api/births/${this.birthId}`).then(({ data }) => {
         this.birthLoading = false
         this.birth = data
       }).catch(() => {
@@ -145,8 +144,11 @@ export default {
 
     fetchSetting () {
       this.settingLoading = true
-      let birthId = this.birthId
-      Api('/api/settings', {query: {birthId}}).then(({data}) => {
+      Api('/api/settings', {
+        query: {
+          birthId: this.birthId
+        }
+      }).then(({ data }) => {
         this.settingLoading = false
         this.setting = data
       }).catch(() => {

@@ -28,23 +28,20 @@
             <h4 class="weui-media-box__title">
               <span>{{item.title}}</span>
               <span class="countdown">
-                <span v-if="item.countdown">{{item.countdown}}</span>
+                <span v-if="item.info.countdown">{{item.info.countdown}}</span>
                 <span v-else>今</span>
                 <span>天</span>
               </span>
             </h4>
             <ul class="weui-media-box__info">
-              <li class="weui-media-box__info__meta" v-if="item.type === 'SOLAR'">
-                {{`${item.month}月${item.day}日`}}
-              </li>
-              <li class="weui-media-box__info__meta" v-if="item.type === 'LUNAR'">
-                {{`${item.month}${item.day}`}}
-              </li>
-              <li class="weui-media-box__info__meta">{{item.zodiac}}</li>
-              <li class="weui-media-box__info__meta">{{item.constellation}}</li>
               <li class="weui-media-box__info__meta">
-                <span v-if="item.countdown === 0">{{item.age}} 岁</span>
-                <span v-else>后 {{item.age + 1}} 岁</span>
+                {{`${item.info.month}${item.info.day}`}}
+              </li>
+              <li class="weui-media-box__info__meta">{{item.info.zodiac}}</li>
+              <li class="weui-media-box__info__meta">{{item.info.constellation}}</li>
+              <li class="weui-media-box__info__meta">
+                <span v-if="item.info.countdown === 0">{{item.info.age}} 岁</span>
+                <span v-else>后 {{item.info.age + 1}} 岁</span>
               </li>
             </ul>
           </div>
@@ -55,9 +52,9 @@
 </template>
 
 <script>
-import Api from '../api'
-import {randDiffColor} from '../lib/utils'
-import FilterBar from '../components/FilterBar'
+import Api from '@/api'
+import utils from '@/lib/utils'
+import FilterBar from '@/components/FilterBar'
 
 export default {
   data () {
@@ -80,14 +77,14 @@ export default {
     fetch () {
       this.loading = true
       Api('/api/births').then(({data}) => {
-        this.loading = false
         let lastColor
-        data.map((item) => {
-          lastColor = randDiffColor(lastColor)
+        this.loading = false
+        this.items = data.map((item) => {
+          lastColor = utils.randomDiffColor(lastColor)
           item.bgColor = lastColor
           item.lastWord = item.title.slice(-1)
+          return item
         })
-        this.items = data
       }).catch(() => {
         this.loading = false
       })
@@ -95,16 +92,19 @@ export default {
   },
 
   computed: {
-    filteredItems: function () {
+    filteredItems () {
       if (!this.filter || !this.items) {
         return this.items
       }
 
       let exp = new RegExp(this.filter)
-      return this.items.filter(function (item) {
+      return this.items.filter((item) => {
         return item.title.match(exp) ||
-               item.constellation.match(exp) ||
-               item.zodiac.match(exp) ||
+               item.info.year.match(exp) ||
+               item.info.month.match(exp) ||
+               item.info.day.match(exp) ||
+               item.info.constellation.match(exp) ||
+               item.info.zodiac.match(exp) ||
                item.date.match(exp)
       })
     }

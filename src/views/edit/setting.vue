@@ -70,13 +70,11 @@
 </template>
 
 <script>
-import Api from '../../api'
+import Api from '@/api'
 
 export default {
   data () {
     return {
-      birthId: null,
-      settingId: null,
       advance: null,
       time: null,
       isLoading: false,
@@ -86,6 +84,12 @@ export default {
   },
 
   computed: {
+    birthId () {
+      return this.$route.params.birthId
+    },
+    settingId () {
+      return this.$route.params.settingId
+    },
     isAdvanceError () {
       return this.advance && (isNaN(this.advance) || this.advance > 365 || this.advance < 0)
     },
@@ -98,9 +102,6 @@ export default {
   },
 
   created () {
-    let params = this.$route.params
-    this.birthId = Number(params.birthId || 0) || null
-    this.settingId = Number(params.settingId || 0) || null
     if (this.settingId) {
       this.fetch()
     }
@@ -109,11 +110,10 @@ export default {
   methods: {
     fetch () {
       this.isLoading = true
-      let settingId = this.settingId
-      Api('/api/settings/detail', {query: {settingId}}).then((res) => {
+      Api(`/api/settings/${this.settingId}`).then(({ data }) => {
         this.isLoading = false
-        this.advance = res.data.advance
-        this.time = res.data.time
+        this.advance = data.advance
+        this.time = data.time
       }).catch(() => {
         this.isLoading = false
       })
@@ -125,20 +125,23 @@ export default {
       }
       this.isSubmit = true
 
+      let url = '/api/settings'
       let method = 'POST'
-      let body = {
-        birthId: this.birthId,
-        advance: this.advance,
-        time: this.time
-      }
       if (this.settingId) {
+        url = `/api/settings/${this.settingId}`
         method = 'PUT'
-        body.settingId = this.settingId
       }
 
-      Api('/api/settings', {method, body}).then((res) => {
+      Api(url, {
+        method,
+        body: {
+          birthId: Number(this.birthId),
+          advance: Number(this.advance),
+          time: this.time
+        }
+      }).then(() => {
         this.isSubmit = false
-        this.$router.push({name: 'detail'})
+        this.$router.push({ name: 'detail' })
       }).catch(() => {
         this.isSubmit = false
       })
@@ -147,15 +150,16 @@ export default {
     remove () {
       if (this.isSubmit || this.isRemove) {
         return false
-      }
-      if (!confirm('你确定要删除当前提醒信息吗?')) {
+      } else if (!confirm('你确定要删除当前提醒信息吗?')) {
         return false
       }
+
       this.isRemove = true
-      let settingId = this.settingId
-      Api('/api/settings', {method: 'DELETE', query: {settingId}}).then((res) => {
+      Api(`/api/settings/${this.settingId}`, {
+        method: 'DELETE'
+      }).then(() => {
         this.isRemove = false
-        this.$router.push({name: 'detail'})
+        this.$router.push({ name: 'detail' })
       }).catch(() => {
         this.isRemove = false
       })

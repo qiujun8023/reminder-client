@@ -11,7 +11,7 @@ const COLORS = [
   '#61b8fa'
 ]
 
-let randDiffColor = function (color) {
+let randomDiffColor = (color) => {
   let diffColor
   do {
     diffColor = _.sample(COLORS)
@@ -19,4 +19,12 @@ let randDiffColor = function (color) {
   return diffColor
 }
 
-export {randDiffColor}
+let randomBgImage = () => {
+  let random = Math.floor(Math.random() * 4)
+  return `//cdn.qiujun.me/images/birthday/bg-${random}.jpg!birthday`
+}
+
+export default {
+  randomDiffColor,
+  randomBgImage
+}

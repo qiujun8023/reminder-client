@@ -107,18 +107,15 @@
 
 <script>
 import _ from 'lodash'
-import Api from '../../api'
+import Api from '@/api'
 
 export default {
   data () {
     return {
-      birthId: null,
       title: '',
-      type: '',
+      type: 'LUNAR',
       year: 1990,
-      months: [],
       month: 1,
-      days: [],
       day: 1,
       isLoading: false,
       isSubmit: false,
@@ -127,6 +124,25 @@ export default {
   },
 
   computed: {
+    birthId () {
+      return this.$route.params.birthId
+    },
+    months () {
+      if (this.type === 'LUNAR') {
+        return '正二三四五六七八九十冬腊'
+      }
+      return _.range(1, 12)
+    },
+    days () {
+      if (this.type === 'LUNAR') {
+        return [
+          '初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
+          '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
+          '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'
+        ]
+      }
+      return _.map(_.range(1, 31), (item) => item + '日')
+    },
     isYearError () {
       return this.year && (isNaN(this.year) || this.year > 2100 || this.year < 1900)
     },
@@ -136,26 +152,8 @@ export default {
   },
 
   created () {
-    this.type = 'LUNAR'
-    this.birthId = Number(this.$route.params.birthId || 0) || null
     if (this.birthId) {
       this.fetch()
-    }
-  },
-
-  watch: {
-    type: function (val) {
-      if (val === 'LUNAR') {
-        this.months = '正二三四五六七八九十冬腊'
-        this.days = [
-          '初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
-          '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
-          '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'
-        ]
-      } else {
-        this.months = _.range(1, 12)
-        this.days = _.map(_.range(1, 31), (item) => item + '日')
-      }
     }
   },
 
@@ -167,11 +165,11 @@ export default {
 
     fetch () {
       this.isLoading = true
-      let birthId = this.birthId
-      Api('/api/births/detail', {query: {birthId}}).then(({data}) => {
+      Api(`/api/births/${this.birthId}`).then(({data}) => {
         this.isLoading = false
         this.title = data.title
         this.type = data.type
+
         let date = data.date.split('-')
         this.year = Number(date[0])
         this.month = Number(date[1])
@@ -187,21 +185,28 @@ export default {
       }
       this.isSubmit = true
 
+      let url = '/api/births'
       let method = 'POST'
-      let body = {
-        title: this.title,
-        type: this.type,
-        date: `${this.year}-${this.format(this.month, 2)}-${this.format(this.day, 2)}`
-      }
       if (this.birthId) {
+        url = `/api/births/${this.birthId}`
         method = 'PUT'
-        body.birthId = this.birthId
       }
 
-      Api('/api/births', {method, body}).then(({data}) => {
+      Api(url, {
+        method,
+        body: {
+          title: this.title,
+          type: this.type,
+          date: `${this.year}-${this.format(this.month, 2)}-${this.format(this.day, 2)}`
+        }
+      }).then(({ data }) => {
         this.isSubmit = false
-        console.log(data)
-        this.$router.push({name: 'detail', params: {birthId: data.birthId}})
+        this.$router.push({
+          name: 'detail',
+          params: {
+            birthId: data.birthId
+          }
+        })
       }).catch(() => {
         this.isSubmit = false
       })
@@ -215,10 +220,11 @@ export default {
       }
 
       this.isRemove = true
-      let birthId = this.birthId
-      Api('/api/births', {method: 'DELETE', query: {birthId}}).then((res) => {
+      Api(`/api/births/${this.birthId}`, {
+        method: 'DELETE'
+      }).then((res) => {
         this.isRemove = false
-        this.$router.push({name: 'births'})
+        this.$router.push({ name: 'births' })
       }).catch(() => {
         this.isRemove = false
       })

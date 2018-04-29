@@ -4,7 +4,7 @@ import url from 'url'
 
 let isAuthorizing = false
 
-let getLoginUrl = function (config) {
+let getLoginUrl = (config) => {
   return url.format({
     protocol: 'https',
     host: 'open.weixin.qq.com',
@@ -14,7 +14,7 @@ let getLoginUrl = function (config) {
   })
 }
 
-let handleHttpError = function (status, data) {
+let handleHttpError = (status, data) => {
   if (isAuthorizing) {
     return false
   }
@@ -30,7 +30,7 @@ let handleHttpError = function (status, data) {
   }
 }
 
-let api = async function (uri, params) {
+let api = async (uri, params) => {
   params = params || {}
   params.method = params.method || 'GET'
 

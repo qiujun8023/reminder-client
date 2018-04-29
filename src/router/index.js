@@ -1,8 +1,8 @@
 
-import births from '../views/births'
-import detail from '../views/detail'
-import edit from '../views/edit'
-import editSetting from '../views/edit/setting'
+import births from '@/views/births'
+import detail from '@/views/detail'
+import edit from '@/views/edit'
+import editSetting from '@/views/edit/setting'
 
 const NotFound = {
   template: '<p>Page Not Found</p>'
