@@ -4,6 +4,18 @@
     <div class="weui-cells weui-cells_form weui-panel__bd">
       <div class="weui-cell">
         <div class="weui-cell__hd">
+          <label class="weui-label">背景色</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" type="text" readonly v-model="color" @click="isColorPicker = true">
+        </div>
+        <div class="weui-cell__ft">
+          <i class="weui-loading" v-if="isLoading"></i>
+          <div class="color-show" :style="{'background-color': color}"></div>
+        </div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
           <label class="weui-label">姓名</label>
         </div>
         <div class="weui-cell__bd">
@@ -41,11 +53,8 @@
         </div>
         <div class="weui-cell__bd">
           <select class="weui-select" v-model="month">
-            <option
-              :value="index + 1"
-              :key="index"
-              v-for="(item, index) in months">
-              {{item}}月
+            <option :value="index + 1" :key="index" v-for="(item, index) in months">
+              {{item}}
             </option>
           </select>
         </div>
@@ -56,10 +65,7 @@
         </div>
         <div class="weui-cell__bd">
           <select class="weui-select" v-model="day">
-            <option
-              :value="index + 1"
-              :key="index"
-              v-for="(item, index) in days">
+            <option :value="index + 1" :key="index" v-for="(item, index) in days">
               {{item}}
             </option>
           </select>
@@ -102,21 +108,37 @@
         </div>
       </div>
     </div>
+    <swatches-picker
+      class="color-picker"
+      :value="color"
+      @input="updateColor"
+      v-show="isColorPicker">
+    </swatches-picker>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
+import { Swatches } from 'vue-color'
 import Api from '@/api'
+import config from '@/config'
 
 export default {
+  name: 'edit',
+
+  components: {
+    'swatches-picker': Swatches
+  },
+
   data () {
     return {
+      color: _.sample(config.colors),
       title: '',
       type: 'LUNAR',
       year: 1990,
       month: 1,
       day: 1,
+      isColorPicker: false,
       isLoading: false,
       isSubmit: false,
       isRemove: false
@@ -128,20 +150,10 @@ export default {
       return this.$route.params.birthId
     },
     months () {
-      if (this.type === 'LUNAR') {
-        return '正二三四五六七八九十冬腊'
-      }
-      return _.range(1, 12)
+      return config.months[this.type.toLowerCase()]
     },
     days () {
-      if (this.type === 'LUNAR') {
-        return [
-          '初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
-          '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
-          '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'
-        ]
-      }
-      return _.map(_.range(1, 31), (item) => item + '日')
+      return config.days[this.type.toLowerCase()]
     },
     isYearError () {
       return this.year && (isNaN(this.year) || this.year > 2100 || this.year < 1900)
@@ -169,6 +181,7 @@ export default {
         this.isLoading = false
         this.title = data.title
         this.type = data.type
+        this.color = data.color
 
         let date = data.date.split('-')
         this.year = Number(date[0])
@@ -197,7 +210,8 @@ export default {
         body: {
           title: this.title,
           type: this.type,
-          date: `${this.year}-${this.format(this.month, 2)}-${this.format(this.day, 2)}`
+          date: `${this.year}-${this.format(this.month, 2)}-${this.format(this.day, 2)}`,
+          color: this.color
         }
       }).then(({ data }) => {
         this.isSubmit = false
@@ -228,6 +242,11 @@ export default {
       }).catch(() => {
         this.isRemove = false
       })
+    },
+
+    updateColor (colors) {
+      this.color = colors.hex
+      this.isColorPicker = false
     }
   }
 }
@@ -239,5 +258,15 @@ export default {
 }
 .weui-btn:after {
   border: 0px;
+}
+.color-show {
+  width: 18px;
+  height: 18px;
+}
+.color-picker {
+  position: absolute;
+  top: 83px;
+  right: 0;
+  z-index: 999;
 }
 </style>

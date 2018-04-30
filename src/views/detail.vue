@@ -9,7 +9,7 @@
           <i class="fa fa-edit fa-lg"></i>
         </router-link>
       </div>
-      <div class="avatar" :style="{'background-color': bgColor}">
+      <div class="avatar" :style="{'background-color': birth.color || '#FFFFFF'}">
         <i class="weui-loading" v-if="birthLoading"></i>
         <span v-else>{{(birth.title && birth.title.slice(-1)) || '日'}}</span>
       </div>
@@ -103,13 +103,14 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Api from '@/api'
-import utils from '@/lib/utils'
+import config from '@/config'
 
 export default {
   data () {
     return {
-      bgImg: utils.randomBgImage(),
+      bgImg: _.sample(config.images),
       birth: {},
       setting: {},
       birthLoading: false,
@@ -120,9 +121,6 @@ export default {
   computed: {
     birthId () {
       return this.$route.params.birthId
-    },
-    bgColor () {
-      return this.$route.query.bgColor || '#FB7886'
     }
   },
 

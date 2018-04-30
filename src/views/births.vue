@@ -15,14 +15,15 @@
           class="weui-media-box weui-media-box_appmsg"
           :to="{
             name: 'detail',
-            params: {birthId: item.birthId},
-            query: {bgColor: item.bgColor}
+            params: {
+              birthId: item.birthId
+            }
           }"
           :key="item.birthId"
           v-for="item in filteredItems">
           <div class="weui-media-box__hd"
-            :style="{'background-color': item.bgColor}">
-            <span>{{item.lastWord}}</span>
+            :style="{'background-color': item.color}">
+            <span>{{item.title.slice(-1)}}</span>
           </div>
           <div class="weui-media-box__bd">
             <h4 class="weui-media-box__title">
@@ -53,7 +54,6 @@
 
 <script>
 import Api from '@/api'
-import utils from '@/lib/utils'
 import FilterBar from '@/components/FilterBar'
 
 export default {
@@ -76,15 +76,9 @@ export default {
   methods: {
     fetch () {
       this.loading = true
-      Api('/api/births').then(({data}) => {
-        let lastColor
+      Api('/api/births').then(({ data }) => {
         this.loading = false
-        this.items = data.map((item) => {
-          lastColor = utils.randomDiffColor(lastColor)
-          item.bgColor = lastColor
-          item.lastWord = item.title.slice(-1)
-          return item
-        })
+        this.items = data
       }).catch(() => {
         this.loading = false
       })
