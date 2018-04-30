@@ -11,7 +11,7 @@
         </div>
         <div class="weui-cell__ft">
           <i class="weui-loading" v-if="isLoading"></i>
-          <div class="color-show" :style="{'background-color': color}"></div>
+          <div class="color-show" :style="{'background-color': color}" v-else></div>
         </div>
       </div>
       <div class="weui-cell">
