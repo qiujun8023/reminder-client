@@ -12,7 +12,12 @@ export default {
     '#61B8FA'
   ],
 
-  images: _.range(0, 3).map((i) => `//cdn.qiujun.me/images/birthday/bg-${i}.jpg!birthday`),
+  images: [
+    'https://cdn.qiujun.me/image/2018/09/04/96a0e415aa66d7b8bec5289e5ace9617.jpg!/both/1200x600',
+    'https://cdn.qiujun.me/image/2018/09/04/9dd0eba8f5a017d6da1a9ca6264a09bf.jpg!/both/1200x600',
+    'https://cdn.qiujun.me/image/2018/09/04/25088ca1394cf1652d901acee45f0936.jpg!/both/1200x600',
+    'https://cdn.qiujun.me/image/2018/09/04/43dd7c54d985db808714f2dd0f88114d.jpg!/both/1200x600'
+  ],
 
   months: {
     solar: _.range(1, 12).map((item) => item + '月'),
