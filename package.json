@@ -12,7 +12,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "version": "echo $npm_package_version"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
