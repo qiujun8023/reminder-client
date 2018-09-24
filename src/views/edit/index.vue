@@ -177,7 +177,7 @@ export default {
 
     fetch () {
       this.isLoading = true
-      Api(`/api/births/${this.birthId}`).then(({data}) => {
+      Api(`/api/births/${this.birthId}`).then(({ data }) => {
         this.isLoading = false
         this.title = data.title
         this.type = data.type

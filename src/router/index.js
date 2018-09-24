@@ -1,4 +1,5 @@
-
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 import births from '@/views/births'
 import detail from '@/views/detail'
 import edit from '@/views/edit'
@@ -10,42 +11,51 @@ const NotFound = {
 
 let title = ' - 生日管家'
 
-export default {
+const router = new VueRouter({
   routes: [
     {
       path: '/',
       name: 'births',
       component: births,
-      meta: {title: '列表' + title}
+      meta: { title: '列表' + title }
     },
     {
       path: '/add',
       name: 'add',
       component: edit,
-      meta: {title: '添加' + title}
+      meta: { title: '添加' + title }
     },
     {
       path: '/:birthId',
       name: 'detail',
       component: detail,
-      meta: {title: '详情' + title}
+      meta: { title: '详情' + title }
     },
     {
       path: '/:birthId/edit',
       name: 'edit',
       component: edit,
-      meta: {title: '编辑' + title}
+      meta: { title: '编辑' + title }
     },
     {
       path: '/:birthId/settings/:settingId?',
       name: 'setting-edit',
       component: editSetting,
-      meta: {title: '提醒' + title}
+      meta: { title: '提醒' + title }
     },
     {
       path: '*',
       component: NotFound,
-      meta: {title: '页面未找到'}
+      meta: { title: '页面未找到' }
     }
   ]
-}
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || ''
+  next()
+})
+
+Vue.use(VueRouter)
+
+export default router
