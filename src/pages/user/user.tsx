@@ -1,8 +1,11 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import './index.scss'
+import { connect } from '@tarojs/redux'
+import * as userActions from '../../actions/user'
+import './user.scss'
 
-export default class Index extends Component {
+@connect(state => state.user, { ...userActions })
+export default class User extends Component {
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -12,17 +15,12 @@ export default class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '今日'
+    navigationBarTitleText: '个人中心'
   }
 
-  componentWillMount () {
-    console.log('user login')
-    Taro.navigateTo({
-      url: '/pages/user-login/user-login'
-    })
-  }
+  componentWillMount () {}
 
-  componentDidMount () { }
+  componentDidMount () {}
 
   componentWillUnmount () { }
 
@@ -32,8 +30,8 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Text>Hello today!</Text>
+      <View className='user'>
+        <Text>Hello user!</Text>
       </View>
     )
   }

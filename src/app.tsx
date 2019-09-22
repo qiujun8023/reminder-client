@@ -1,14 +1,17 @@
-import 'taro-ui/dist/style/index.scss'
-import './app.scss'
-
 import Taro, { Component, Config } from '@tarojs/taro'
+import { Provider } from '@tarojs/redux'
+import configStore from './store'
 import Index from './pages/index'
+
+import './app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
+
+const store = configStore()
 
 class App extends Component {
 
@@ -21,13 +24,42 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/moment/moment',
+      'pages/user/user',
+      'pages/user-login/user-login'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'Reminder',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      backgroundColor: "#fafafa",
+      borderStyle: "white",
+      selectedColor: "#2C8CF0",
+      color: "#666",
+      list: [
+        {
+          pagePath: "pages/index/index",
+          iconPath: "assets/images/tab_today.png",
+          selectedIconPath: "assets/images/tab_today_focus.png",
+          text: "今日"
+        },
+        {
+          pagePath: "pages/moment/moment",
+          iconPath: "assets/images/tab_moment.png",
+          selectedIconPath: "assets/images/tab_moment_focus.png",
+          text: "列表"
+        },
+        {
+          pagePath: "pages/user/user",
+          iconPath: "assets/images/tab_user.png",
+          selectedIconPath: "assets/images/tab_user_focus.png",
+          text: "我的"
+        }
+      ]
     }
   }
 
@@ -43,7 +75,9 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Index />
+      <Provider store={store}>
+        <Index />
+      </Provider>
     )
   }
 }
