@@ -17,13 +17,13 @@
 
 ### 截图
 
-![生日列表](https://cdn.qiujun.me/image/2018/09/24/c593040463273efb868cb02cbbe92062.png)
+![生日列表](https://cdn.qiujun.xyz/image/2018/09/24/c593040463273efb868cb02cbbe92062.png)
 
-![生日详情](https://cdn.qiujun.me/image/2018/09/24/61f8aa3d3698659e4170aea9af860be2.png)
+![生日详情](https://cdn.qiujun.xyz/image/2018/09/24/61f8aa3d3698659e4170aea9af860be2.png)
 
-![微信生日列表](https://cdn.qiujun.me/image/2018/09/24/1b68ce630fc0886d4899631672ff1aa6.png)
+![微信生日列表](https://cdn.qiujun.xyz/image/2018/09/24/1b68ce630fc0886d4899631672ff1aa6.png)
 
-![生日提醒](https://cdn.qiujun.me/image/2018/09/24/3f4ce9a24185bc995fd9bdb353c33409.png)
+![生日提醒](https://cdn.qiujun.xyz/image/2018/09/24/3f4ce9a24185bc995fd9bdb353c33409.png)
 
 ## 部署
 
@@ -79,7 +79,7 @@ services:
       APP_WECHAT_CORP_ID: wx4e2c2b771c467c9f
       APP_WECHAT_AGENT_ID: 0
       APP_WECHAT_SECRET: secret
-      APP_WECHAT_BG_IMAGE: https://cdn.qiujun.me/image/2018/09/04/06c2d3f70e6fed342e2eb43bce55fb43.png!/both/720x400
+      APP_WECHAT_BG_IMAGE: https://cdn.qiujun.xyz/image/2018/09/04/06c2d3f70e6fed342e2eb43bce55fb43.png!/both/720x400
     volumes:
       - "./wait-for-it.sh:/app/wait-for-it.sh"
     command: ["./wait-for-it.sh", "-t", "0", "mysql:3306", "--", "node", "index.js"]

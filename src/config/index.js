@@ -13,10 +13,10 @@ export default {
   ],
 
   images: [
-    'https://cdn.qiujun.me/image/2018/09/04/96a0e415aa66d7b8bec5289e5ace9617.jpg!/both/1200x600',
-    'https://cdn.qiujun.me/image/2018/09/04/9dd0eba8f5a017d6da1a9ca6264a09bf.jpg!/both/1200x600',
-    'https://cdn.qiujun.me/image/2018/09/04/25088ca1394cf1652d901acee45f0936.jpg!/both/1200x600',
-    'https://cdn.qiujun.me/image/2018/09/04/43dd7c54d985db808714f2dd0f88114d.jpg!/both/1200x600'
+    'https://cdn.qiujun.xyz/image/2018/09/04/96a0e415aa66d7b8bec5289e5ace9617.jpg!/both/1200x600',
+    'https://cdn.qiujun.xyz/image/2018/09/04/9dd0eba8f5a017d6da1a9ca6264a09bf.jpg!/both/1200x600',
+    'https://cdn.qiujun.xyz/image/2018/09/04/25088ca1394cf1652d901acee45f0936.jpg!/both/1200x600',
+    'https://cdn.qiujun.xyz/image/2018/09/04/43dd7c54d985db808714f2dd0f88114d.jpg!/both/1200x600'
   ],
 
   months: {
