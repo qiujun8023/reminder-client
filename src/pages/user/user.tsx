@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import * as userActions from '../../actions/user'
+import api from '../../services/api'
 import './user.scss'
 
 @connect(state => state.user, { ...userActions })
@@ -18,15 +19,26 @@ export default class User extends Component {
     navigationBarTitleText: '个人中心'
   }
 
-  componentWillMount () {}
+  componentWillMount () {
+    console.log('componentWillMount')
+  }
 
-  componentDidMount () {}
+  componentDidMount () {
+    console.log('componentDidMount')
+    api.getProfile()
+  }
 
-  componentWillUnmount () { }
+  componentWillUnmount () {
+    console.log('componentWillUnmount')
+  }
 
-  componentDidShow () { }
+  componentDidShow () {
+    console.log('componentDidShow')
+  }
 
-  componentDidHide () { }
+  componentDidHide () {
+    console.log('componentDidHide')
+  }
 
   render () {
     return (

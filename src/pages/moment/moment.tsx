@@ -1,6 +1,6 @@
+import './moment.scss'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import './moment.scss'
 
 export default class Moment extends Component {
 
@@ -17,7 +17,8 @@ export default class Moment extends Component {
 
   componentWillMount () { }
 
-  componentDidMount () { }
+  componentDidMount () {
+  }
 
   componentWillUnmount () { }
 

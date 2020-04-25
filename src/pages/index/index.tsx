@@ -15,12 +15,7 @@ export default class Index extends Component {
     navigationBarTitleText: '今日'
   }
 
-  componentWillMount () {
-    console.log('user login')
-    Taro.navigateTo({
-      url: '/pages/user-login/user-login'
-    })
-  }
+  componentWillMount () {}
 
   componentDidMount () { }
 
