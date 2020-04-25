@@ -1,5 +1,5 @@
 {
-  "name": "birthday",
+  "name": "reminder",
   "version": "0.4.1",
   "private": true,
   "description": "生日提醒 前端",
@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qiujun8023/birthday-client.git"
+    "url": "https://github.com/qiujun8023/reminder-client.git"
   },
   "scripts": {
     "serve": "vue-cli-service serve",

@@ -6,8 +6,8 @@
 
 #### Master
 
-[![Build Status](https://travis-ci.org/qiujun8023/birthday-server.svg?branch=master)](https://travis-ci.org/qiujun8023/birthday-server)
-[![Coverage Status](https://coveralls.io/repos/github/qiujun8023/birthday-server/badge.svg?branch=master)](https://coveralls.io/github/qiujun8023/birthday-server?branch=master)
+[![Build Status](https://travis-ci.org/qiujun8023/reminder-server.svg?branch=master)](https://travis-ci.org/qiujun8023/reminder-server)
+[![Coverage Status](https://coveralls.io/repos/github/qiujun8023/reminder-server/badge.svg?branch=master)](https://coveralls.io/github/qiujun8023/reminder-server?branch=master)
 
 ### 特性
 
@@ -53,11 +53,11 @@ services:
     volumes:
       - "./mysql:/var/lib/mysql"
     environment:
-      MYSQL_DATABASE: birthday
-      MYSQL_USER: birthday
+      MYSQL_DATABASE: reminder
+      MYSQL_USER: reminder
       MYSQL_PASSWORD: password
   server:
-    image: qiujun8023/birthday-server
+    image: qiujun8023/reminder-server
     restart: always
     depends_on:
       - redis
@@ -70,12 +70,12 @@ services:
       APP_KEYS_2: i like turtle
       APP_REDIS_HOST: redis
       APP_REDIS_PORT: 6379
-      APP_REDIS_KEY_PREFIX: 'birthday:'
+      APP_REDIS_KEY_PREFIX: 'reminder:'
       APP_MYSQL_HOST: mysql
       APP_MYSQL_PORT: 3306
-      APP_MYSQL_USER: birthday
+      APP_MYSQL_USER: reminder
       APP_MYSQL_PASSWORD: password
-      APP_MYSQL_DATABASE: birthday
+      APP_MYSQL_DATABASE: reminder
       APP_WECHAT_CORP_ID: wx4e2c2b771c467c9f
       APP_WECHAT_AGENT_ID: 0
       APP_WECHAT_SECRET: secret
@@ -84,7 +84,7 @@ services:
       - "./wait-for-it.sh:/app/wait-for-it.sh"
     command: ["./wait-for-it.sh", "-t", "0", "mysql:3306", "--", "node", "index.js"]
   client:
-    image: qiujun8023/birthday-client
+    image: qiujun8023/reminder-client
     restart: always
     ports:
       - "8888:80"
