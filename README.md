@@ -6,13 +6,8 @@
 
 #### Master
 
-[![Build Status](https://travis-ci.org/qious/birthday-server.svg?branch=master)](https://travis-ci.org/qious/birthday-server)
-[![Coverage Status](https://coveralls.io/repos/github/qious/birthday-server/badge.svg?branch=master)](https://coveralls.io/github/qious/birthday-server?branch=master)
-
-#### Develop
-
-[![Build Status](https://travis-ci.org/qious/birthday-server.svg?branch=develop)](https://travis-ci.org/qious/birthday-server)
-[![Coverage Status](https://coveralls.io/repos/github/qious/birthday-server/badge.svg?branch=develop)](https://coveralls.io/github/qious/birthday-server?branch=develop)
+[![Build Status](https://travis-ci.org/qiujun8023/birthday-server.svg?branch=master)](https://travis-ci.org/qiujun8023/birthday-server)
+[![Coverage Status](https://coveralls.io/repos/github/qiujun8023/birthday-server/badge.svg?branch=master)](https://coveralls.io/github/qiujun8023/birthday-server?branch=master)
 
 ### 特性
 
@@ -62,7 +57,7 @@ services:
       MYSQL_USER: birthday
       MYSQL_PASSWORD: password
   server:
-    image: qious/birthday-server
+    image: qiujun8023/birthday-server
     restart: always
     depends_on:
       - redis
@@ -89,7 +84,7 @@ services:
       - "./wait-for-it.sh:/app/wait-for-it.sh"
     command: ["./wait-for-it.sh", "-t", "0", "mysql:3306", "--", "node", "index.js"]
   client:
-    image: qious/birthday-client
+    image: qiujun8023/birthday-client
     restart: always
     ports:
       - "8888:80"

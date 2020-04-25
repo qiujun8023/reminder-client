@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qious/birthday-client.git"
+    "url": "https://github.com/qiujun8023/birthday-client.git"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
